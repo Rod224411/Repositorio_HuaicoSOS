@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Donador } from 'src/app/model/Donador';
 import { DonadorService } from 'src/app/service/Donador.service';
 
@@ -18,9 +18,14 @@ export class DonadorEditaComponent implements OnInit{
   id: number = 0;
   edicion: boolean = false;
 
-  constructor(private aS: DonadorService, private router: Router) {}
+  constructor(private aS: DonadorService, private router: Router,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.route.params.subscribe((data: Params) => {
+      this.id = data['id'];
+      this.edicion = data['id'] != null;
+      this.init();
+    });
     this.form = new FormGroup({
       id: new FormControl(),
       dni: new FormControl(),
@@ -88,3 +93,4 @@ export class DonadorEditaComponent implements OnInit{
   }
 
 }
+
